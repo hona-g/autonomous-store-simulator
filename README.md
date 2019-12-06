@@ -18,4 +18,7 @@ autonomous-store-simulator with amazon
 #### 서버 관련
 * server
  * lambda : 람다함수들
- * s3 : Amazon S3의 Root Directory
+ * 또 뭐필요하지
+
+### 공통 
+* s3 : Amazon S3의 Root Directory
