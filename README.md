@@ -1,3 +1,11 @@
+# autonomous-store-simulator
+autonomous-store-simulator with amazon
+
+## Get started
+ > npm install
+ > npm run build
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
