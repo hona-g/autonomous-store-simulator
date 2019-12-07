@@ -6,6 +6,7 @@ class goods {
     this.name = name;
     this.price = undefined;
     this.category = undefined;
+    this.refundable = true;
 
     this.set_price = function(price){
       return new Promise((resolve, reject)=>{
@@ -33,6 +34,7 @@ class goods {
         );
     }
 
+
     this.get_name = function(){
       return this->name;
     }
@@ -45,5 +47,9 @@ class goods {
     this.get_category = function(){
       return this->category;
     }
+    this.get_refund_status = function(){
+      return this->refundable;
+    }
+
   }
 }
