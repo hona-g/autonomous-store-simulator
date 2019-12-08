@@ -33,3 +33,9 @@
 .Dividor {
   margin: auto;
 }
+
+.Console {
+  margin: auto;
+  width: 50%;
+  background-color: grey;
+}
