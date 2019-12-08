@@ -17,35 +17,27 @@ exports.handler = async (event) => {
   var body = {};
   var res = null;
   try{
-    let trade_info = await fetch(S3_PATH+'trade_info.json');
-    trade_info = await trade_info.json();
+    let theft = await fetch(S3_PATH+'anti-theft-management.json');
+    theft = await theft.json();
+    const { goods, customerID } = event;
+    let date = new Date();
+    let currentTime = date.toISOString();
 
-    //get_trade_info
-    //call all trade information
-    if(httpMethod === "GET") {
-      body['trade_info'] = trade_info;
-      body.message = "";
-    }
+    let id = Object.keys(theft).length;
+    theft[id] = {
+      customerID,
+      goods,
+      currentTime
+    };
 
-    if(httpMethod === "POST" || httpMethod === "PUT") {
-      const { customerID, cart } = JSON.parse(event.body);
-      let id = Object.keys(trade_info).length;
-      trade_info[id] = {
-        customerID,
-        goodsitem: cart
-      };
-      body['trade_info'] = trade_info;
-    }
-    //cancel_trade (input: trade id number)
-    if(httpMethod === "DELETE"){
-      const {id} = JSON.parse(event.body);
-      trade_info.splice(id, 1);
-    }
+    body.goods = goods;
+    body.customerID = customerID;
+    body.message = `도난 감지 : 고객(${customerID})\n감지시간 : ${currentTime}\n물품 : ${goods}`;
 
     res = await s3.putObject({
       Bucket: 'autostore',
-      Key: 'trade_info.json',
-      Body: JSON.stringify(trade_info),
+      Key: 'anti-theft-management.json',
+      Body: JSON.stringify(theft),
       ACL:'public-read',
     }).promise();
   }

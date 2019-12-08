@@ -1,0 +1,7 @@
+table, tr, td {
+  margin: auto;
+}
+
+input[type="text"], input[type="number"] {
+  width: 50px;
+}

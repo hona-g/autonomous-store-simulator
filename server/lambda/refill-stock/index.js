@@ -17,37 +17,19 @@ exports.handler = async (event) => {
   var body = {};
   var res = null;
   try{
-    let trade_info = await fetch(S3_PATH+'trade_info.json');
-    trade_info = await trade_info.json();
+    let goodsitem = await fetch(S3_PATH+'goodsitem.json');
+    goodsitem = await goodsitem.json();
 
-    //get_trade_info
-    //call all trade information
-    if(httpMethod === "GET") {
-      body['trade_info'] = trade_info;
-      body.message = "";
-    }
-
-    if(httpMethod === "POST" || httpMethod === "PUT") {
-      const { customerID, cart } = JSON.parse(event.body);
-      let id = Object.keys(trade_info).length;
-      trade_info[id] = {
-        customerID,
-        goodsitem: cart
-      };
-      body['trade_info'] = trade_info;
-    }
-    //cancel_trade (input: trade id number)
-    if(httpMethod === "DELETE"){
-      const {id} = JSON.parse(event.body);
-      trade_info.splice(id, 1);
-    }
+    const { id } = event;
+    goodsitem[id].stock = goodsitem[id].max_stock;
 
     res = await s3.putObject({
       Bucket: 'autostore',
-      Key: 'trade_info.json',
-      Body: JSON.stringify(trade_info),
+      Key: 'goodsitem.json',
+      Body: JSON.stringify(goodsitem),
       ACL:'public-read',
     }).promise();
+
   }
   catch(e) {
     statusCode = 401;
@@ -56,6 +38,9 @@ exports.handler = async (event) => {
   finally {
     const response = {
       statusCode,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
       body: JSON.stringify(body),
     };
 

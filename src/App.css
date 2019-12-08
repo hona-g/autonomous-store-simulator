@@ -35,7 +35,15 @@
 }
 
 .Console {
-  margin: auto;
-  width: 50%;
-  background-color: grey;
+  text-align: center;
+  color: #00ff00;
+  background-color: black;
+  max-height: 200px;
+  overflow-y: scroll;
+  font-size: 20px;
+}
+
+h1 {
+  color: #006600;
+  margin-bottom: 0;
 }

@@ -8,7 +8,7 @@ class Cart extends Component{
   }
 
   render() {
-    const { goods, goodsitem, location, setState } = this.props;
+    const { goods, goodsitem, location, cartitem, setState, make_trade } = this.props;
 
     return(
       <div>
@@ -33,19 +33,27 @@ class Cart extends Component{
               {goodsitem[key] ? goodsitem[key].stock : 'error'}
               </td>
               <td>
-              {0}
+              {cartitem[key] ? cartitem[key] : 0}
               </td>
               <td>
-              <input type="button" value="담기" />
+              <input type="button" value="담기" onClick={(event)=>{
+                console.log(event);
+                if(typeof(cartitem[key]) == 'undefined') {
+                  cartitem[key] = 1;
+                } else {
+                  cartitem[key] ++;
+                }
+                setState({cartitem: cartitem});
+              }}/>
               </td>
             </tr>
           );
         })}
         </table>
         <p>
-        <input type="button" value="계산하기" onClick={()=>setState({ location: 'hall' })} />
-        <input type="button" value="훔치기" />
-        <input type="button" value="장바구니비우기" />
+        <input type="button" value="계산하기" onClick={()=>make_trade(cartitem)} />
+        <input type="button" value="훔치기" onClick={()=>setState({ location: 'hall' })} />
+        <input type="button" value="장바구니비우기" onClick={()=>setState({cartitem: {}})}/>
         <input type="button" value="아무 것도 안함" />
         </p>
       </div>
